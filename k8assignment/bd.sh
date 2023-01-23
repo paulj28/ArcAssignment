@@ -1,4 +1,4 @@
-echo Hehe
+echo "Beginning the Build & Deploy Script ..."
 python3 -m server.py &
 pid=$!
 
@@ -20,16 +20,30 @@ fi
 
 echo "Test Passed !!"
 
+echo "Setting up Minikube !"
+
+minikube start
+
+minikube addons enable ingress
+
+kubectl delete validatingwebhookconfigurations ingress-nginx-admission
+
 eval $(minikube -p minikube docker-env)
+
+echo "Minikube setup complete !"
+
+echo "Building docker image !"
 
 docker build -t arcassignment/ws .
 
-echo "Docker image built and pushed to docker hub !!"
+echo "Docker image built !"
+
+echo "Beginning deployment !"
 
 kubectl apply -f ws.yaml
 kubectl expose deployment webserdep --port=8000
 
-echo "Please wait while everything is being set up"
+echo "Please wait while everything is being set up ..."
 
 sleep 30
 
