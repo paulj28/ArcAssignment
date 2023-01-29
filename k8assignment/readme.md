@@ -40,9 +40,11 @@ The docker image can then be built with the respective docker file. The image is
 To deploy the web server on Kubernetes a .yaml file was created which was split into three parts, the Ingress, the Deployment and the Service. The Ingress part behaves as a load balancer to the service. The deployment was made to have 2 replicas for testing purposes. The service is open on port 8000. The port 8000 for the deployment is exposed so that the local host can communicate with the deployment. Many online sources which provide insights into the syntax and form of the yaml file have deprecated and must check with more modern sources to ensure correct behaviour. The deployment takes in the image created earlier from docker hub for the pods. 
 
 To run the yaml file we use the command:
+
 ```kubeclt apply -f <name of yaml file>.yaml```
     
 Then we must expose the port 8000 for the deployment so that it can communicate with the local host, using the command: 
+
 ```kubectl expose deployment <Name> --port=8000```
 
 ## Build and Deploy Script:
@@ -53,6 +55,8 @@ The build and deploy script initially runs a test on the server to ensure it wor
 
 ## Results:
 Once you view the Ingress details, on using the curl command on the ip of the Ingress, we should get the required JSON file. Using the host local.arcesium.org in Ingress could not be done as that would require root access. Instead we use the nip.io service. To send a curl GET request to the server, all we have to do is run the command:
+
 ```curl  app.192.168.49.2.nip.io/athlete```
+
 This gives us the desired JSON as output. In my case:
 		{myFavouriteAthlete : Lionel Messi}
